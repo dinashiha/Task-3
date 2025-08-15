@@ -1,0 +1,93 @@
+Task 1
+
+Shallow Copying:
+
+A shallow copy creates a new compound object but does not create copies of nested objects. Instead, it inserts references to the objects found in the original into the new copy. This means changes to mutable nested objects in the copy will also affect the original.
+Example: When copying a list of lists, a shallow copy will create a new outer list, but the inner lists will still be references to the original inner lists.
+
+Deep Copying:
+
+A deep copy creates a new compound object and recursively copies all objects found in the original. This means that changes to nested objects in the deep copy will not affect the original object.
+Example: When deep copying a list of lists, both the outer list and all inner lists are new, independent objects. 
+
+
+2. Multiple Inheritance in Python
+
+What is Multiple Inheritance?
+Multiple inheritance is a feature in object-oriented programming where a class can inherit attributes and methods from multiple parent classes. This allows a child class to combine functionalities from several sources.
+
+What will happen if the child and the parent have the same method?
+If a child class and a parent class (or multiple parent classes in multiple inheritance) have methods with the same name, Python follows the Method Resolution Order (MRO) to determine which method to call. The MRO defines the order in which base classes are searched for a method or attribute. In general, the method in the more specific class (the child class) will override the method in the less specific class (the parent class).
+
+What will happen if two parents have the same parent?
+If two parent classes in a multiple inheritance scenario share a common ancestor (a "diamond problem" scenario), Python's MRO (specifically, the C3 linearization algorithm) ensures that the common ancestor is visited only once during method resolution, preventing redundant calls and maintaining a consistent inheritance hierarchy. 
+
+
+Task 2 voting sysytem
+class VotingSystem:
+    def __init__(self):
+        self.__candidates = {}  # Private dictionary to store candidates and their votes
+
+    def add_candidate(self, candidate_name):
+        if candidate_name not in self.__candidates:
+            self.__candidates[candidate_name] = 0
+            print(f"Candidate '{candidate_name}' added.")
+        else:
+            print(f"Candidate '{candidate_name}' already exists.")
+
+    def remove_candidate(self, candidate_name):
+        if candidate_name in self.__candidates:
+            del self.__candidates[candidate_name]
+            print(f"Candidate '{candidate_name}' removed.")
+        else:
+            print(f"Candidate '{candidate_name}' not found.")
+
+    def vote_to_candidate(self, candidate_name):
+        if candidate_name in self.__candidates:
+            self.__candidates[candidate_name] += 1
+            print(f"Vote cast for '{candidate_name}'.")
+        else:
+            print(f"Candidate '{candidate_name}' not found. Cannot vote.")
+
+    def display_the_winner(self):
+       if self.__candidates:
+        max_votes = max(self.__candidates.values())
+        winners = [candidate for candidate, votes in self.__candidates.items() if votes == max_votes]
+        if len(winners) == 1:
+            print(f"The winner is {winners[0]} with {max_votes} votes.")
+        else:
+            print("It's a tie between: " + ", ".join(winners))
+
+Task 3 smartphone
+
+class Phone:
+    def __init__(self):
+        self.contacts = {}
+
+    def add_contact(self, name, number):
+        self.contacts[name] = number
+        print(f"Contact {name} added.")
+
+    def remove_contact(self, name):
+        if name in self.contacts:
+            del self.contacts[name]
+            print(f"Contact {name} removed.")
+        else:
+            print(f"Contact {name} not found.")
+
+    def make_call(self, name):
+        if name in self.contacts:
+            print(f"Calling {name}...")
+        else:
+            print(f"{name} is not in contacts.")
+
+class Camera:
+    def take_pic(self):
+        print("The picture was taken successfully.")
+
+class Smartphone(Phone, Camera):
+    def __init__(self):
+    
+        Phone.__init__(self)
+        Camera.__init__(self)
+my_phone = Smartphone()
